@@ -1,0 +1,25 @@
+---
+- hosts: all
+  strategy: free
+  become: yes
+
+  tasks:
+    - name: Enable ufw firewall
+      ufw:
+        state: enabled
+        policy: deny
+
+    - name: Allow connections via ssh
+      ufw:
+        rule: allow
+        port: 22
+        src: '{{ item }}'
+      with_items:
+        - any
+
+    - name: Allow connections to mongo only from internal subnet
+      ufw:
+        rule: allow
+        src: '{{ item }}'
+      with_items:
+        - 10.33.68.0/24
