@@ -1,0 +1,69 @@
+# Для установки ролей используйте команду ansible-galaxy install -r requirements.yml --force
+# ntp
+- src: https://github.com/geerlingguy/ansible-role-ntp
+  name: ntp
+# java
+- src: https://github.com/geerlingguy/ansible-role-java.git
+  name: java_new
+# apt
+- src: https://github.com/vterdunov/ansible-apt
+  name: apt
+# mysql
+- src: https://github.com/ANXS/mysql
+  name: mysql
+# PostgreSQL
+- src: ANXS.postgresql
+  name: postgresql
+# nginx
+- src: https://github.com/jdauphant/ansible-role-nginx
+  name: nginx
+
+# activemq
+- src: https://github.com/vterdunov/ansible-activemq
+  scm: activemq
+
+# mongodb
+- src: https://github.com/UnderGreen/ansible-role-mongodb
+  name: UnderGreen.mongodb
+
+# mule
+- src: git+http://gitlab.it.vm/infra/ansible-mule.git
+  name: mule
+
+- src: dresden-weekly.network-interfaces
+  name: network-interfaces
+
+# memcached
+- src: git+http://gitlab.it.vm/infra/ansible-memcached.git
+  name: memcached
+
+# filebeat
+- src: git+http://gitlab.it.vm/infra/ansible-filebeat.git
+  name: filebeat
+
+# filebeat
+- src: https://github.com/DavidWittman/ansible-filebeat.git
+  name: dw.filebeat
+
+# topbeat
+- src: git+http://gitlab.it.vm/infra/ansible-topbeat.git
+  name: topbeat
+
+# zabbix-agent
+- src: https://github.com/dj-wasabi/ansible-zabbix-agent
+  name: zabbix-agent
+
+# nodejs
+- src: https://github.com/feksai/ansible-role-nodejs
+  name: nodejs
+# logrotate
+- src: nickhammond.logrotate
+  name: logrotate
+
+# docker
+- src: angstwad.docker_ubuntu
+  name: docker
+
+#win_updates
+- src: https://github.com/deekayen/ansible-role-win_updates
+  name: deekayen.win_updates
