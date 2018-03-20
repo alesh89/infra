@@ -1,0 +1,45 @@
+- hosts: all
+  become: yes
+
+  environment: '{{ environment_host | default({}) }}'
+
+  tasks:
+
+    - name: Echo current kernel
+      debug: msg={{ ansible_kernel }}
+
+
+    - name: Update cache
+      apt:
+        update_cache: yes
+
+    - name: Update kernel
+      apt:
+        name: linux-generic-lts-xenial
+        install_recommends: yes
+        state: latest
+      register: update_kernel
+
+    - name: restart machine
+      shell: 'sleep 2 && shutdown -r now "Ansible updates triggered"'
+      async: 1
+      poll: 0
+      ignore_errors: True
+      when: update_kernel.changed
+
+    - name: Waiting for server to come back
+      local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} port=22 state=started delay=10 timeout=600
+      become: no
+      when: update_kernel.changed
+
+    - name: Gether facts
+      setup:
+        gather_subset: all
+
+    - name: Echo current kernel
+      debug: msg={{ ansible_kernel }}
+
+    - name: Install updates
+      apt:
+        update_cache: yes
+        upgrade: yes
