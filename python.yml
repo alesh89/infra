@@ -1,0 +1,50 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  become_user: root
+  environment: '{{ environment_host | default({}) }}'
+  pre_tasks:
+    - name: 'apt-get update -qq'
+      raw: "http_proxy={{environment[0].http_proxy}} https_proxy={{environment[0].https_proxy}} apt-get update"
+    - name: 'install python2'
+      raw: "http_proxy={{environment[0].http_proxy}} https_proxy={{environment[0].https_proxy}} apt-get -y install python-simplejson"
+
+ # pre_tasks:
+ #   - raw: "http_proxy={{environment[0].http_proxy}} https_proxy={{environment[0].https_proxy}} sudo apt-get update && sudo apt-get -y install python-simplejson"
+
+  tasks:
+    - name: Install packages
+      apt:
+        name: '{{ item }}'
+        state: latest
+      with_items:
+        - '{{ deb_packages }}'
+      become: yes
+      tags:
+        - always
+
+    - block:
+      - name: Install pip
+        easy_install:
+          name: pip
+          state: latest
+
+      - name: Install packages from pip
+        pip:
+          name: '{{ item }}'
+          state: latest
+        with_items:
+          - '{{ pip_packages }}'
+      become: yes
+      tags: always
+
+    - name: Install packages
+      apt:
+        name: '{{ item }}'
+        state: latest
+      with_items:
+        - '{{ apt_packages }}'
+      become: yes
+      tags:
+        - always
