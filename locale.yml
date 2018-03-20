@@ -1,0 +1,26 @@
+---
+- hosts: all
+  strategy: free
+  become: yes
+
+  tasks:
+    - name: "Set LC_* variables"
+      lineinfile:
+        dest: "/etc/default/locale"
+        regexp: "^{{ item.var }}="
+        line: "{{ item.var }}={{ item.value }}"
+      with_items:
+        - { var: "LANG", value: "en_US.UTF-8" }
+        - { var: "LANGUAGE", value: "en_US" }
+        - { var: "LC_CTYPE", value: "en_US.UTF-8" }
+        - { var: "LC_NUMERIC", value: "ru_RU.UTF-8" }
+        - { var: "LC_TIME", value: "ru_RU.UTF-8" }
+        - { var: "LC_COLLATE", value: "en_US.UTF-8" }
+        - { var: "LC_MONETARY", value: "ru_RU.UTF-8" }
+        - { var: "LC_MESSAGES", value: "en_US.UTF-8" }
+        - { var: "LC_PAPER", value: "ru_RU.UTF-8" }
+        - { var: "LC_NAME", value: "ru_RU.UTF-8" }
+        - { var: "LC_ADDRESS", value: "ru_RU.UTF-8" }
+        - { var: "LC_TELEPHONE", value: "ru_RU.UTF-8" }
+        - { var: "LC_MEASUREMENT", value: "ru_RU.UTF-8" }
+        - { var: "LC_IDENTIFICATION", value: "ru_RU.UTF-8" }
